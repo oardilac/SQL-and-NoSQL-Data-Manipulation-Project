@@ -1,0 +1,165 @@
+// --- QueryMongoDB 1 ---
+
+db.customers.aggregate([
+  {
+    $lookup: {
+      from: "orders",
+      localField: "customerNumber",
+      foreignField: "customerNumber",
+      as: "customer_orders"
+    }
+  },
+  {
+    $unwind: "$customer_orders"
+  },
+  {
+    $lookup: {
+      from: "orderdetails",
+      localField: "customer_orders.orderNumber",
+      foreignField: "orderNumber",
+      as: "order_detail"
+    }
+  },
+  {
+    $unwind: "$order_detail"
+  },
+  {
+    $lookup: {
+      from: "products",
+      localField: "order_detail.productCode",
+      foreignField: "productCode",
+      as: "product_info"
+    }
+  },
+  {
+    $unwind: "$product_info"
+  },
+  {
+    $group: {
+      _id: {
+        customerCountry: "$country",
+        product: "$product_info.productName"
+      },
+      totalSales: { $sum: { $multiply: ["$order_detail.quantityOrdered", "$order_detail.priceEach"] } },
+    }
+  },
+  {
+    $sort: { "_id.customerCountry": 1, totalSales: -1 }
+  },
+  {
+    $group: {
+      _id: "$_id.customerCountry",
+      topSellingProduct: { $first: "$_id.product" },
+      sales: { $first: "$totalSales" }
+    }
+  },
+  {
+    $setWindowFields: {
+       sortBy: { sales: -1 },
+       output: {
+          salesRank: {
+             $rank: {}
+          }
+       }
+    }
+ },
+  {
+    $sort: { salesRank: 1 }
+  },
+  {
+    $project: {
+      Country: "$_id",
+      Top_Selling_Product: "$topSellingProduct",
+      Total_Sales: "$sales",
+      Sales_Rank: "$salesRank",
+      _id: 0
+    }  
+ }
+])
+
+
+// --- End of First Query ---
+
+
+// --- QueryMongoDB 2 ---
+
+db.customers.aggregate([
+  {
+    $lookup: {
+      from: "orders",
+      localField: "customerNumber",
+      foreignField: "customerNumber",
+      as: "customer_orders"
+    }
+  },
+  {
+    $unwind: "$customer_orders"
+  },
+  {
+    $lookup: {
+      from: "orderdetails",
+      localField: "customer_orders.orderNumber",
+      foreignField: "orderNumber",
+      as: "order_detail"
+    }
+  },
+  {
+    $unwind: "$order_detail"
+  },
+  {
+    $lookup: {
+      from: "products",
+      localField: "order_detail.productCode",
+      foreignField: "productCode",
+      as: "product_info"
+    }
+  },
+  {
+    $unwind: "$product_info"
+  },
+  {
+    $project: {
+      orderMonthYear: {
+        $substr: [
+          { $dateToString: { format: "%Y-%m", date: "$customer_orders.orderDate" } },
+          0,
+          7
+        ]
+      },
+      country: 1,
+      quantity: "$order_detail.quantityOrdered",
+      price: "$order_detail.priceEach"
+    }
+  },
+  {
+    $group: {
+      _id: {
+        customerCountry: "$country",
+        month: "$orderMonthYear"
+      },
+      totalSales: { $sum: { $multiply: ["$quantity", "$price"] } },
+    }
+  },
+  {
+    $sort: { "_id.customerCountry": 1, totalSales: -1 }
+  },
+  {
+    $group: {
+      _id: "$_id.customerCountry",
+      topSalesMonth: { $first: "$_id.month" },
+      sales: { $first: "$totalSales" }
+    }
+  },
+  {
+    $project: {
+      Country: "$_id",
+      Top_Sales_Month: "$topSalesMonth",
+      Total_Sales: "$sales"
+    }
+  },
+  {
+    $sort: { Total_Sales: -1 }
+  },
+])
+
+// --- End of Second Query ---

@@ -1,0 +1,48 @@
+[{
+  "_id": {
+    "$oid": "647dfc1b362ce35eabf6e8ca"
+  },
+  "name": "Vanilla Sponge Cake",
+  "shortDescription": "A vanilla sponge cake is a traditional cake made with vanilla extract, sugar, and flour.",
+  "description": "A vanilla sponge cake is a beloved classic dessert. It consists of flour, sugar, eggs, and vanilla extract, whisked together and baked to golden perfection. The origins of the sponge cake are thought to be in the Caribbean, with the earliest recipes dating back to the 16th century.",
+  "image": "https://www.recipetineats.com/wp-content/uploads/2017/09/Vanilla-Sponge-Cake-2.jpg",
+  "ingredients": [
+    "flour",
+    "sugar",
+    "eggs",
+    "vanilla extract"
+  ],
+  "stock": 20
+},
+{
+  "_id": {
+    "$oid": "647dfc1b362ce35eabf6e8cb"
+  },
+  "name": "Strawberry Cheesecake",
+  "shortDescription": "Strawberry cheesecake is a popular dessert made with cream cheese, sugar, and strawberries.",
+  "description": "A strawberry cheesecake is a delightful dessert that blends the creamy richness of cheesecake with the fruity sweetness of strawberries. The main layer consists of a creamy cheese blend, with a bottom layer typically made from crushed cookies or graham crackers. Topped with fresh strawberries, it's a dessert that's sure to impress.",
+  "image": "https://media.istockphoto.com/id/1205169550/photo/cheesecake-slice-with-strawberries.jpg?s=612x612&w=0&k=20&c=Vr9g9CMxNQuHDlMwjgOiUxQtABSAp8KeYR7bfUZpeMs=",
+  "ingredients": [
+    "cream cheese",
+    "sugar",
+    "eggs",
+    "strawberries"
+  ],
+  "stock": 30
+},
+{
+  "_id": {
+    "$oid": "647dfc1b362ce35eabf6e8cc"
+  },
+  "name": "Dark Chocolate Brownie",
+  "shortDescription": "Dark Chocolate Brownie is a rich, fudgy dessert made with dark chocolate and cocoa powder.",
+  "description": "Dark Chocolate Brownies are a divine treat for chocolate lovers. Made with dark chocolate, sugar, and flour, these brownies are intensely rich and fudgy. The first brownie recipes were created in the late 19th century, and they've been a beloved dessert ever since.",
+  "image": "https://handletheheat.com/wp-content/uploads/2019/09/Dark-Chocolate-Brownies-SQUARE-500x500.jpg",
+  "ingredients": [
+    "flour",
+    "sugar",
+    "cocoa powder",
+    "dark chocolate"
+  ],
+  "stock": 10
+}]
